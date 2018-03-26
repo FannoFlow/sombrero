@@ -1,6 +1,6 @@
 # Sombrero
 
-High-density crowd simulation in MATLAB.
+High-density crowd simulations in MATLAB.
 
 ## Author
 
