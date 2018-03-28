@@ -1,3 +1,27 @@
+%--------------------------------------------------------------------------
+% Sombrero is a software for simulating information transfer in
+% high-density crowds.
+%
+% Copyright (C) 2018 Olle Eriksson
+%--------------------------------------------------------------------------
+
+%--------------------------------------------------------------------------
+% This file is part of Sombrero.
+%
+% Sombrero is free software: you can redistribute it and/or modify it under
+% the terms of the GNU Lesser General Public License as published by the
+% Free Software Foundation, either version 3 of the License, or (at your
+% option) any later version.
+%
+% Sombrero is distributed in the hope that it will be useful, but WITHOUT
+% ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+% FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+% License for more details.
+%
+% You should have received a copy of the GNU Lesser General Public License
+% along with Sombrero. If not, see <http://www.gnu.org/licenses/>.
+%--------------------------------------------------------------------------
+
 classdef sim_data
 % The class SIM_DATA encapsulates data obtained from crowd simulations as
 % well as methods for accessing this data.
@@ -162,6 +186,44 @@ classdef sim_data
                 v(:, i) = spline(obj.time, squeeze(obj.velocities(i, :, :)), t);
             end
             v = sum(v.^2)';
+        end
+        
+        function rect = get_extents(obj, radii, t)
+        % Returns the smallest rectangle (sim_rectangle object) aligned
+        % along the coordinate axes that contains all the agents.
+            
+            [n, ~, ~] = size(obj.positions);
+            if n > 0
+                x = spline(obj.time, squeeze(obj.positions(1, :, :)), t)';
+                r = radii(1);
+                % Coordinates of lower left and upper right corner of the
+                % the smallest rectangle that contains all agents:
+                % x lower left, y lower left, x upper right and y upper
+                % right.
+                xll = x(1) - r;
+                yll = x(2) - r;
+                xur = x(1) + r;
+                yur = x(2) + r;
+                for i = 1 : n
+                    % Spline interplotation is used to approximate the
+                    % positions at times that lie between time steps.
+                    x = spline(obj.time, squeeze(obj.positions(i, :, :)), t)';
+                    r = radii(i);
+                    if x(1) - r < xll
+                        xll = x(1) - r;
+                    end
+                    if x(2) - r < yll
+                        yll = x(2) - r;
+                    end
+                    if x(1) + r > xur
+                        xur = x(1) + r;
+                    end
+                    if x(2) + r > yur
+                        yur = x(2) + r;
+                    end
+                end
+            end
+            rect = sim_rectangle(xll, yll, xur - xll, yur - yll);
         end
         
     end

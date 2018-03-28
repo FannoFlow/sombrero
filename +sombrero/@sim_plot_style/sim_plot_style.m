@@ -1,3 +1,27 @@
+%--------------------------------------------------------------------------
+% Sombrero is a software for simulating information transfer in
+% high-density crowds.
+%
+% Copyright (C) 2018 Olle Eriksson
+%--------------------------------------------------------------------------
+
+%--------------------------------------------------------------------------
+% This file is part of Sombrero.
+%
+% Sombrero is free software: you can redistribute it and/or modify it under
+% the terms of the GNU Lesser General Public License as published by the
+% Free Software Foundation, either version 3 of the License, or (at your
+% option) any later version.
+%
+% Sombrero is distributed in the hope that it will be useful, but WITHOUT
+% ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+% FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+% License for more details.
+%
+% You should have received a copy of the GNU Lesser General Public License
+% along with Sombrero. If not, see <http://www.gnu.org/licenses/>.
+%--------------------------------------------------------------------------
+
 classdef sim_plot_style
     % The class SIM_PLOT_STYLE encapsulates data and methods that govern
     % how crowd simulation data is plotted.
@@ -8,6 +32,15 @@ classdef sim_plot_style
     %   different scalar quantities belong in SIM_PLOT_STYLE.
     
     properties
+        
+        zoom_box   = sim_rectangle(0, 0, 50, 50) %
+        
+        show_agents          = true % Shows the agents in the plot if true.
+        show_walls           = true % Shows the walls in the plot if true.
+        show_contact_network = true % Shows the contact network in the plot if true.
+        show_time            = true % Adds time to plot if true.
+        
+        bgcolor = [0, 0, 1] % Plot background color (HSV color model).
         
         radius_scale_factor = 1 % Agents' radii are scaled by this factor before being plotted.
         
@@ -41,14 +74,27 @@ classdef sim_plot_style
         
         current_info_model = "none" % The information model used when plotting.
         
-        show_graph = false % If true, the contact network graph is plotted.
-        
         graph_color = [0, 0, 0] % The color of the contact network graph (HSV color model).
-        
-        show_time = true % If true, the time (in the simulation) is printed on the plot.
         
     end
     methods
+        
+        function obj = sim_plot_style(varargin)
+        % Constructs a sim_plot_style object.
+        %
+        %   SIM_PLOT_STYLE constructs a SIM_PLOT_STYLE oject.
+        %
+        %   SIM_PLOT_STYLE(sm), where sm is a sim_model object, constructs
+        %   a SIM_PLOT_STYLE object and sets its zoom to encompass the
+        %   simulation box of sm.
+
+            if nargin > 0
+                sm = varargin{1};
+                validateattributes(sm, {'sim_model'}, {});
+                
+                obj.zoom_box = sm.simulation_box;
+            end
+        end
         
         function colors = get_gradient_colors(obj, values)
             % Returns the HSV colors corresponding to a vector of values.

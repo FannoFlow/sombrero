@@ -1,7 +1,31 @@
-function plot_all(hplot, sm, sd, sps, t)
+%--------------------------------------------------------------------------
+% Sombrero is a software for simulating information transfer in
+% high-density crowds.
+%
+% Copyright (C) 2018 Olle Eriksson
+%--------------------------------------------------------------------------
+
+%--------------------------------------------------------------------------
+% This file is part of Sombrero.
+%
+% Sombrero is free software: you can redistribute it and/or modify it under
+% the terms of the GNU Lesser General Public License as published by the
+% Free Software Foundation, either version 3 of the License, or (at your
+% option) any later version.
+%
+% Sombrero is distributed in the hope that it will be useful, but WITHOUT
+% ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+% FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+% License for more details.
+%
+% You should have received a copy of the GNU Lesser General Public License
+% along with Sombrero. If not, see <http://www.gnu.org/licenses/>.
+%--------------------------------------------------------------------------
+
+function plot_all(ax, sm, sd, sps, t)
 % Plots crowd simulation data.
 %
-%   This method takes an axes handle hplot, a SIM_MODEL object sm with a
+%   This method takes an axes handle ax, a SIM_MODEL object sm with a
 %   corresponding SIM_DATA object sd, a SIM_PLOT_STYLE object sps, and a
 %   time t, and plots the data from sd at time t. What data is to be
 %   included in the plot, as well as how it is to be presented, is
@@ -60,9 +84,9 @@ function plot_all(hplot, sm, sd, sps, t)
     end
     fill_colors = hsv2rgb(sps.get_gradient_colors(gradient_values));
     
-    cm = colormap(hplot, hsv2rgb(sps.get_colormap));
-    cb = colorbar(hplot);
-    caxis(hplot, sps.get_fill_gradient_range);
+    cm = colormap(ax, hsv2rgb(sps.get_colormap));
+    cb = colorbar(ax);
+    caxis(ax, sps.get_fill_gradient_range);
     [cb_ticks, cb_tick_labels] = sps.get_colorbar_ticks;
     cb.Ticks = cb_ticks;
     cb.TickLabels = cb_tick_labels;
@@ -90,32 +114,39 @@ function plot_all(hplot, sm, sd, sps, t)
     % Second, we plot the data.
     %----------------------------------------------------------------------
     
-    axes(hplot);
-    cla;
-    hold on;
+    cla(ax);
+    hold(ax, 'on');
+    
+    ax.Color = hsv2rgb(sps.bgcolor);
     
     % Plot the agents.
     x = sd.get_positions(t);
     r = sps.radius_scale_factor * sm.radii;
     edge_colors = repmat([0, 0, 0], sm.number_of_agents, 1);
-    sim_gui.plot_agents(x, r, vector_values, fill_colors, edge_colors);
+    if sps.show_agents
+        sim_gui.plot_agents(ax, x, r, vector_values, fill_colors, edge_colors);
+    end
     
     % Plot the walls.
-    walls = sm.walls;
-    for k = 1 : 2 : 2 * sm.number_of_walls
-        plot( [walls(k,1), walls(k+1,1)], ...
-              [walls(k,2), walls(k+1,2)], ...
-              'Color', 'k',               ...
-              'LineWidth', 2                 );
+    if sps.show_walls
+        walls = sm.walls;
+        for k = 1 : 2 : 2 * sm.number_of_walls
+            plot(ax,                         ...
+                 [walls(k,1), walls(k+1,1)], ...
+                 [walls(k,2), walls(k+1,2)], ...
+                 'Color', 'k',               ...
+                 'LineWidth', 2                 );
+        end
     end
     
     % Plot the contact network.
-    if sps.show_graph == false
+    if sps.show_contact_network
         
         G = graph(sd.adjacency{step}, 'OmitSelfLoops');
         graph_color = hsv2rgb(sps.graph_color);
         
-        u = plot(G, '.',                   ...
+        u = plot(ax,                       ...
+                 G, '.',                   ...
                  'NodeLabel', {},          ...
                  'EdgeColor', graph_color, ...
                  'NodeColor', 'k'             );
@@ -124,15 +155,15 @@ function plot_all(hplot, sm, sd, sps, t)
         u.YData = x(:,2)';
     end
     
-    
-    axis square;
-    rect = sm.simulation_box;
-    axis([rect.x, rect.x + rect.w, rect.y, rect.y + rect.h]);
+    rect = sps.zoom_box;
+    xlim(ax, [rect.x, rect.x + rect.w]);
+    ylim(ax, [rect.y, rect.y + rect.h]);
     
     if sps.show_time == true
-        text(rect.x + 0.04 * rect.w, ...
-             rect.y + rect.h - 0.04 * rect.h, ....
+        text(ax,                              ...
+             rect.x + 0.04 * rect.w,          ...
+             rect.y + rect.h - 0.04 * rect.h, ...
              ['t=', num2str(t, '%.1f')] );
     
-    hold off;
+    hold(ax, 'off');
 end
