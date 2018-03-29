@@ -25,6 +25,6 @@ The example files included in the +sombrero directory are heavily commented and 
 
 ## License
 
-Sombrero is licensed under LGPL v3.0. See [LICENSE.md](LICENSE.md) for the details.
+Sombrero is licensed under LGPL v3.0. See [LICENSE](LICENSE) for the details.
 
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
