@@ -1,8 +1,12 @@
 # Sombrero
 
-<img align="right" width="360" src="https://raw.githubusercontent.com/O-Boll/sombrero/master/media/sombrero_gui_screenshot.png">
+<img align="right" width="400" src="https://raw.githubusercontent.com/O-Boll/sombrero/master/media/sombrero_gui_screenshot.png">
 
-Sombrero is a MATLAB application for simulating verbal information transfer in high-density crowds by combining a self-propelled particle model for pedestrian dynamics with models of information transfer. It was mainly developed a tool for studying why people in dense crowds oftentimes are completely oblivious of an ongoing crowd disaster (e.g. a crowd crush) even though they may be standing just a few meters away from areas where others are dying or getting seriously injured from compression asphyxia. However, Sombrero is quite versatile and can be used to simulate pedestrians in a wide variety of different scenarios.
+Sombrero is a MATLAB application for simulating verbal information transfer in high-density crowds by combining a self-propelled particle model for pedestrian dynamics with models of information transfer.
+
+## Background
+
+Sombrero was mainly developed as tool for studying the perplexing phenomenon that people in dense crowds oftentimes are completely oblivious of an ongoing crowd disaster (e.g. a crowd crush) even though they may be standing just a few meters away from areas where others are dying or getting seriously injured from compression asphyxia. However, Sombrero is quite versatile and can be used to simulate pedestrians in a wide variety of different scenarios.
 
 ## Getting Started
 
