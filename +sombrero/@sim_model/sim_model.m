@@ -37,7 +37,7 @@ classdef sim_model
         %------------------------------------------------------------------
 
         steps    = 200 % The number of time steps in the simulation.
-        substeps = 10  % The number of integration steps that is carried out per time step.
+        substeps = 50  % The number of integration steps that is carried out per time step.
 
         %------------------------------------------------------------------
         % Properties related to simulation geometry
@@ -69,7 +69,7 @@ classdef sim_model
 
         
         epsilon = 25.0 % Parameter pertaining to repulsion due to physical interactions.
-        kappa   =  0.0 % Parameter pertaining to friction.
+        kappa   = 25.0 % Parameter pertaining to friction.
         mu      =  1.0 % Parameter pertaining to acceleration toward target destinations.
         sigma   =  1.0 % Parameter pertaining to the size of random movements.
 
@@ -78,7 +78,7 @@ classdef sim_model
         %------------------------------------------------------------------
 
         pressure_threshold   = Inf   % The minimum pressure at which agents become informed (along with their neighbors).
-        trigger_informed_at  = 60    % The time step at which the agent that is experiencing the most pressure becomes informed (along with its neighbors).
+        trigger_informed_at  = Inf   % The time step at which the agent that is experiencing the most pressure becomes informed (along with its neighbors).
         freeze_after_trigger = false % If true, the agents stop moving after the first agent becomes informed.
         info_models          = []    % The information models used, in the form of a vector of sim_info_model objects.
         behavioral_responses = []    % The behavioral responses of each agent.
@@ -123,7 +123,7 @@ classdef sim_model
             obj.info_models = [obj.info_models; info_models(:)];
         end
 
-        data = run_simulation(obj)
+        data = run_simulation(obj, varargin)
 
     end
     methods (Static)

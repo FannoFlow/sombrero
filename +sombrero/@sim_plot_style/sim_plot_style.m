@@ -89,6 +89,9 @@ classdef sim_plot_style
         %   simulation box of sm.
 
             if nargin > 0
+                if nargin > 1
+                    error('Too many input arguments.');
+                end
                 sm = varargin{1};
                 validateattributes(sm, {'sim_model'}, {});
                 

@@ -22,7 +22,7 @@
 % along with Sombrero. If not, see <http://www.gnu.org/licenses/>.
 %--------------------------------------------------------------------------
 
-function data = run_simulation(obj)
+function data = run_simulation(obj, varargin)
 % Runs a simulation using the given parameters and initial conditions.
 %
 %   This method runs a crowd simulation. The initial conditions of the
@@ -31,11 +31,26 @@ function data = run_simulation(obj)
 %   information transfer takes place at each time step. A sim_data object
 %   is returned once the simulation is finished.
 %
+%   RUN_SIMULATION runs a simulation for obj.steps time steps.
+%
+%   RUN_SIMULATION(steps) runs a simulation for steps time steps.
+%
 %   See also SIM_DATA
+
+    steps = obj.steps;
+    if nargin > 1
+        if nargin > 2
+            error('Too many input arguments.');
+        end
+        validateattributes(varargin{1}, ...
+                           {'numeric'}, ...
+                           {'scalar', 'integer', 'nonnegative'} );
+        steps = varargin{1};
+    end
 
     % total_substeps is the total number of integration substeps that is to
     % be performed. Each integration substep is of length delta_t.
-    total_substeps = obj.steps * obj.substeps;
+    total_substeps = steps * obj.substeps;
     delta_t = 1 / obj.substeps;
     
     n = obj.number_of_agents;
@@ -57,7 +72,7 @@ function data = run_simulation(obj)
     v0 = zeros(n,2);
     v1 = zeros(n,2);
     
-    approx_v1 = zeros(n,2);
+    approx_v1       = zeros(n,2);
     gaze_directions = zeros(2, n);
     move_directions = zeros(2, n);
 
@@ -72,20 +87,20 @@ function data = run_simulation(obj)
     ang = zeros(n, n);
 
     % Preallocate space for the simulation data.
-    simd.time = 0 : obj.steps;
-    simd.positions = zeros(obj.number_of_agents, 2, obj.steps + 1);
-    simd.velocities = zeros(obj.number_of_agents, 2, obj.steps + 1);
-    simd.accelerations = zeros(obj.number_of_agents, 2, obj.steps + 1);
-    simd.directions = zeros(obj.number_of_agents, 2, obj.steps + 1);
-    simd.pressure = zeros(n, obj.steps + 1);
-    simd.adjacency = cell(obj.steps + 1, 1);
-    simd.information = cell(obj.steps + 1, numel(obj.info_models));
+    simd.time          = 0 : steps;
+    simd.positions     = zeros(obj.number_of_agents, 2, steps + 1);
+    simd.velocities    = zeros(obj.number_of_agents, 2, steps + 1);
+    simd.accelerations = zeros(obj.number_of_agents, 2, steps + 1);
+    simd.directions    = zeros(obj.number_of_agents, 2, steps + 1);
+    simd.pressure      = zeros(n, steps + 1);
+    simd.adjacency     = cell(steps + 1, 1);
+    simd.information   = cell(steps + 1, numel(obj.info_models));
 
     % Store data from initial time step.
-    simd.positions(:, :, 1) = x0;
+    simd.positions (:, :, 1) = x0;
     simd.velocities(:, :, 1) = v0;
     simd.directions(:, :, 1) = (obj.targets - x0) ./ sqrt(sum((obj.targets - x0)'.^2 ))';
-    simd.adjacency{1} = sparse(adj);
+    simd.adjacency{1}        = sparse(adj);
     for j = 1 : numel(obj.info_models)
         simd.information{1, j} = obj.info_models(j);
     end

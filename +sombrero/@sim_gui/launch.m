@@ -76,7 +76,7 @@ function launch(sm, sd, sps)
         hs.slider            = uicontrol(hs.panel);
         hs.slider.Style      = 'slider';
         hs.slider.Min        = 0;
-        hs.slider.Max        = sm.steps;
+        hs.slider.Max        = numel(sd.time) - 1;
         hs.slider.Value      = 0;
         hs.slider.SliderStep = [0.2 / (hs.slider.Max - hs.slider.Min), ...
                                 10 / (hs.slider.Max - hs.slider.Min)];

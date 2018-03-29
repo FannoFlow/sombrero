@@ -49,15 +49,16 @@ classdef sim_info_threshold < sim_info_model
             validateattributes(number_of_agents,...
                                {'numeric'},...
                                {'scalar', 'integer', 'nonnegative'});
+            
             validateattributes(influence_threshold,...
                                {'numeric'}, ...
                                {'vector', 'real', 'numel', number_of_agents});
 
-            obj.tag = tag;
-            obj.number_of_agents = number_of_agents;
-            obj.visual_fields = zeros(number_of_agents, 1) + 2 * pi;
-            obj.informed_agents = zeros(number_of_agents, 1);
-            obj.attention_threshold = influence_threshold(:);
+            obj.tag                 = tag;
+            obj.number_of_agents    = number_of_agents;
+            obj.visual_fields       = zeros(number_of_agents, 1) + 2 * pi;
+            obj.informed_agents     = zeros(number_of_agents, 1);
+            obj.influence_threshold = influence_threshold(:);
         end
         
         function obj = next_step(obj, adj_matrix, ang_matrix)
