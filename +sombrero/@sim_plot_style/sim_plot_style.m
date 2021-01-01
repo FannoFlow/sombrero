@@ -33,7 +33,7 @@ classdef sim_plot_style
     
     properties
         
-        zoom_box   = sim_rectangle(0, 0, 50, 50) %
+        zoom_box   = sombrero.sim_rectangle(0, 0, 50, 50) %
         
         show_agents          = true % Shows the agents in the plot if true.
         show_walls           = true % Shows the walls in the plot if true.
@@ -68,9 +68,9 @@ classdef sim_plot_style
             0, 40; ... % pressure
             0, 1]      % speed
         
-        scalar_fill_quantity = sim_scalar_quantity.none % The scalar quantity used when plotting.
+        scalar_fill_quantity = sombrero.sim_scalar_quantity.none % The scalar quantity used when plotting.
         
-        vector_quantity = sim_vector_quantity.none % The vector quantity used when plotting.
+        vector_quantity = sombrero.sim_vector_quantity.none % The vector quantity used when plotting.
         
         current_info_model = "none" % The information model used when plotting.
         
@@ -93,7 +93,7 @@ classdef sim_plot_style
                     error('Too many input arguments.');
                 end
                 sm = varargin{1};
-                validateattributes(sm, {'sim_model'}, {});
+                validateattributes(sm, {'sombrero.sim_model'}, {});
                 
                 obj.zoom_box = sm.simulation_box;
             end
@@ -139,16 +139,16 @@ classdef sim_plot_style
             gid = uint32(obj.scalar_fill_quantity);
             fgr = obj.fill_gradient_range(gid, :);
             switch obj.scalar_fill_quantity
-                case sim_scalar_quantity.informed
+                case sombrero.sim_scalar_quantity.informed
                     ticks = [0.25, 0.75];
                     tick_labels = {'Uninformed', 'Informed'};
-                case sim_scalar_quantity.neighbors
+                case sombrero.sim_scalar_quantity.neighbors
                     ticks = fgr(1) + 0.5 : 1 : fgr(2) - 0.5;
                     tick_labels = cell(1, numel(ticks));
                     for i = 1 : numel(ticks)
                         tick_labels{i} = num2str(fgr(1) + i - 1);
                     end
-                case sim_scalar_quantity.informed_neighbors
+                case sombrero.sim_scalar_quantity.informed_neighbors
                     ticks = fgr(1) + 0.5 : 1 : fgr(2) - 0.5;
                     tick_labels = cell(1, numel(ticks));
                     for i = 1 : numel(ticks)

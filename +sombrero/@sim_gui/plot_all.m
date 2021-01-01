@@ -56,22 +56,22 @@ function plot_all(ax, sm, sd, sps, t)
     gradient_values = [];
     switch sps.scalar_fill_quantity
         
-        case sim_scalar_quantity.pressure
+        case sombrero.sim_scalar_quantity.pressure
             gradient_values = sd.get_pressure(t);
             
-        case sim_scalar_quantity.speed
+        case sombrero.sim_scalar_quantity.speed
             gradient_values = sd.get_speed(t);
             
-        case sim_scalar_quantity.neighbors
+        case sombrero.sim_scalar_quantity.neighbors
             gradient_values = sum(sd.adjacency{step}) - 1;
             
-        case sim_scalar_quantity.informed
+        case sombrero.sim_scalar_quantity.informed
             gradient_values = zeros(sm.number_of_agents, 1);
             if cimi ~= -1
                 gradient_values = sd.information{step, cimi}.informed_agents;
             end
             
-        case sim_scalar_quantity.informed_neighbors
+        case sombrero.sim_scalar_quantity.informed_neighbors
             gradient_values = zeros(sm.number_of_agents, 1);
             if cimi ~= -1
                 gradient_values = sum(sd.adjacency{step} .* sd.information{step, i}.informed_agents) - 1;
@@ -96,13 +96,13 @@ function plot_all(ax, sm, sd, sps, t)
     vector_values = [];
     switch sps.vector_quantity
         
-        case sim_vector_quantity.velocity
+        case sombrero.sim_vector_quantity.velocity
             vector_values = sd.get_velocities(t);
             
-        case sim_vector_quantity.acceleration
+        case sombrero.sim_vector_quantity.acceleration
             vector_values = sd.get_accelerations(t);
             
-        case sim_vector_quantity.direction
+        case sombrero.sim_vector_quantity.direction
             vector_values = sd.get_directions(t);
             
         otherwise
@@ -124,7 +124,7 @@ function plot_all(ax, sm, sd, sps, t)
     r = sps.radius_scale_factor * sm.radii;
     edge_colors = repmat([0, 0, 0], sm.number_of_agents, 1);
     if sps.show_agents
-        sim_gui.plot_agents(ax, x, r, vector_values, fill_colors, edge_colors);
+        sombrero.sim_gui.plot_agents(ax, x, r, vector_values, fill_colors, edge_colors);
     end
     
     % Plot the walls.

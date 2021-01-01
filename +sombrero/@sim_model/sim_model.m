@@ -43,8 +43,8 @@ classdef sim_model
         % Properties related to simulation geometry
         %------------------------------------------------------------------
 
-        simulation_box      = sim_rectangle(0.0, 0.0, 50.0, 50.0) % The rectangle in which the simulation takes place.
-        boundary_conditions = sim_topology.plane % A topology that defines the boundary conditions of the simulation box.
+        simulation_box      = sombrero.sim_rectangle(0.0, 0.0, 50.0, 50.0) % The rectangle in which the simulation takes place.
+        boundary_conditions = sombrero.sim_topology.plane % A topology that defines the boundary conditions of the simulation box.
 
         %------------------------------------------------------------------
         % Properties related to agents (SPPs)
@@ -99,7 +99,7 @@ classdef sim_model
             validateattributes(targets, {'numeric'}, {'size', [n, 2]});
             validateattributes(prefered_speeds, {'numeric'},...
                                {'nonnegative', 'numel', n});
-            validateattributes(behavioral_responses, {'sim_response'},...
+            validateattributes(behavioral_responses, {'sombrero.sim_response'},...
                                {'vector', 'numel', n});
 
             obj.number_of_agents = obj.number_of_agents + n;
@@ -119,7 +119,7 @@ classdef sim_model
         function obj = add_info_models(obj, info_models)
             % Adds information models to the model.
             %   See also SIM_INFO_MODEL.
-            validateattributes(info_models, {'sim_info_model'}, {'vector'});
+            validateattributes(info_models, {'sombrero.sim_info_model'}, {'vector'});
             obj.info_models = [obj.info_models; info_models(:)];
         end
 

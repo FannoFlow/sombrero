@@ -28,7 +28,7 @@ function [sm, sd, sps] = example_1
 
     % The simulation box. It's lower left corner is at (0, 0) and it's
     % width is 35 and it's height is 25.
-    box = sim_rectangle(0, 0, 35, 25);
+    box = sombrero.sim_rectangle(0, 0, 35, 25);
 
     % The number of agents. Agents are refered to as agent 1, 2, 3 etc.
     n = 200;
@@ -52,7 +52,7 @@ function [sm, sd, sps] = example_1
     % in behavioral_response(i). In this example, we are not interested in
     % studying behavioral responses, so we set this property to none for
     % each agent.
-    behavioral_responses = repmat(sim_response.none, n, 1);
+    behavioral_responses = repmat(sombrero.sim_response.none, n, 1);
     
     % The number of walls.
     w = 4;
@@ -65,7 +65,7 @@ function [sm, sd, sps] = example_1
     bottom_right_wall = [box.w / 2 + 0.75, 0; box.w           , 0    ];
 
     % We create a sim_model that will be used to run a crowd simulation.
-    sm = sim_model;
+    sm = sombrero.sim_model;
     
     % We set the simulation box property of sm to match our box above.
     sm.simulation_box = box;
@@ -91,6 +91,6 @@ function [sm, sd, sps] = example_1
     % A sim_plot_style object is needed to plot the simulation data sd.
     % Passing sm to the constructor of sim_plot_style makes sure that we
     % get decent zoom settings right away.
-    sps = sim_plot_style(sm);
+    sps = sombrero.sim_plot_style(sm);
     
 end

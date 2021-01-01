@@ -22,7 +22,7 @@
 % along with Sombrero. If not, see <http://www.gnu.org/licenses/>.
 %--------------------------------------------------------------------------
 
-classdef sim_info_threshold < sim_info_model
+classdef sim_info_threshold < sombrero.sim_info_model
 % The class SIM_INFO_THRESHOLD implements a threshold model of information
 % transfer.
 %

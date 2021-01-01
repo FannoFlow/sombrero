@@ -22,13 +22,13 @@
 % along with Sombrero. If not, see <http://www.gnu.org/licenses/>.
 %--------------------------------------------------------------------------
 
-function [sm, sd, sps] = example_2
+function [sm, sd, sps] = example_2()
 % This function sets up and runs a crowd simulation in which agents try to
 % escape from a crowd crush.
 
     % The simulation box. It's lower left corner is at (0, 0) and it's
     % width is 25 and it's height is 25.
-    box = sim_rectangle(0, 0, 25, 25);
+    box = sombrero.sim_rectangle(0, 0, 25, 25);
 
     % The number of agents. Agents are refered to as agent 1, 2, 3 etc.
     n = 500;
@@ -54,7 +54,7 @@ function [sm, sd, sps] = example_2
     % response of every agent to reverse. This means that agents will try
     % to move away from their target destination once they become informed
     % about the crowd crush.
-    behavioral_responses = repmat(sim_response.reverse, n, 1);
+    behavioral_responses = repmat(sombrero.sim_response.reverse, n, 1);
     
     % The number of walls.
     w = 3;
@@ -77,12 +77,12 @@ function [sm, sd, sps] = example_2
     
     % We need to pass the name, the number of agents and the vector with
     % the influence thresholds to the constructor of sim_info_threshold.
-    info_model = sim_info_threshold(info_model_name, ...
+    info_model = sombrero.sim_info_threshold(info_model_name, ...
                                     n,               ...
                                     influence_thresholds);
 
     % We create a sim_model that will be used to run a crowd simulation.
-    sm = sim_model;
+    sm = sombrero.sim_model();
     
     % We set the simulation box property of sm to match our box above.
     sm.simulation_box = box;
@@ -112,6 +112,6 @@ function [sm, sd, sps] = example_2
     % A sim_plot_style object is needed to plot the simulation data sd.
     % Passing sm to the constructor of sim_plot_style makes sure that we
     % get decent zoom settings right away.
-    sps = sim_plot_style(sm);
+    sps = sombrero.sim_plot_style(sm);
     
 end

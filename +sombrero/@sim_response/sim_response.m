@@ -42,9 +42,9 @@ classdef sim_response
         function u = get_move_dir(obj, v)
             % Returns a modified move direcion.
             %   See also RUN_SIMULATION
-            if obj == sim_response.stop
+            if obj == sombrero.sim_response.stop
                 u = 0 * v;
-            elseif obj == sim_response.reverse
+            elseif obj == sombrero.sim_response.reverse
                 u = -v;
             else
                 u = v;
@@ -54,7 +54,7 @@ classdef sim_response
         function u = get_gaze_dir(obj, v)
             % Returns a modified gaze direcion.
             %   See also RUN_SIMULATION
-            if obj == sim_response.reverse
+            if obj == sombrero.sim_response.reverse
                 u = -v;
             else
                 u = v;
@@ -63,9 +63,9 @@ classdef sim_response
         
         function s = to_string(obj)
             % Returns a string with the name of the behavioral response.
-            if obj == sim_response.stop
+            if obj == sombrero.sim_response.stop
                 s = 'stop';
-            elseif obj == sim_response.reverse
+            elseif obj == sombrero.sim_response.reverse
                 s = 'reverse direction';
             else
                 s = 'none';

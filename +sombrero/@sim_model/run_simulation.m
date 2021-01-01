@@ -227,7 +227,7 @@ function data = run_simulation(obj, varargin)
                     % Let dist be the distance from agent k to wall l, and
                     % let norm_vec be a unit vector pointing from k towards
                     % the point on l that is closest to it.
-                    [dist, norm_vec] = sim_model.distance_to_wall(x, walls(l:l+1,:));
+                    [dist, norm_vec] = sombrero.sim_model.distance_to_wall(x, walls(l:l+1,:));
                     
                     % If agent k collides with wall l:
                     if dist < r(k)
@@ -341,6 +341,6 @@ function data = run_simulation(obj, varargin)
     % The sim_data object data is created from the struct that holds the
     % simulation data. This object provides a more sophisticated interface
     % to the data than the struct does.
-    data = sim_data(simd);
+    data = sombrero.sim_data(simd);
 
 end

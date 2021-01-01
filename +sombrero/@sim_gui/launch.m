@@ -139,7 +139,7 @@ function launch(sm, sd, sps)
         hs.info_model_text.Position            = [220, 52, 110, 20];
         
         % A drop-down list for choosing a scalar quantity:
-        [hs.scalar_quantities, options]   = enumeration('sim_scalar_quantity');
+        [hs.scalar_quantities, options]   = enumeration('sombrero.sim_scalar_quantity');
         hs.scalar_quantity_popup          = uicontrol(hs.panel);
         hs.scalar_quantity_popup.Style    = 'popup';
         hs.scalar_quantity_popup.String   = options;
@@ -155,7 +155,7 @@ function launch(sm, sd, sps)
         hs.scalar_quantity_text.Position            = [220, 27, 110, 20];
         
         % A drop-down list for choosing a vector quantity:
-        [hs.vector_quantities, options]   = enumeration('sim_vector_quantity');
+        [hs.vector_quantities, options]   = enumeration('sombrero.sim_vector_quantity');
         hs.vector_quantity_popup          = uicontrol(hs.panel);
         hs.vector_quantity_popup.Style    = 'popup';
         hs.vector_quantity_popup.String   = options;
@@ -213,7 +213,7 @@ function launch(sm, sd, sps)
         sps.vector_quantity      = hs.vector_quantities(hs.vector_quantity_popup.Value);
         hs.slidertext.String     = ['t=', num2str(t, '%.1f')];
 
-        sim_gui.plot_all(hs.axes, sm, sd, sps, t);
+        sombrero.sim_gui.plot_all(hs.axes, sm, sd, sps, t);
         drawnow;
     end
 
